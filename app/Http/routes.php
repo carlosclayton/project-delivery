@@ -16,7 +16,33 @@ Route::get('/', function () {
 });
 
 
+
 Route::get('/test', function(){
    $repository = app()->make('Delivery\Repositories\CategoryRepository');
    return $repository->all();
 });
+
+
+Route::group(['middleware' => ['web']], function () {
+
+    Route::group(['prefix' => 'auth'], function () {
+
+        Route::get('login', function () {
+            return view('auth.login');
+        });
+
+        Route::get('register', function () {
+            return view('auth.login');
+        });
+
+    });
+
+    Route::group(['prefix' => 'admin'], function () {
+        Route::group(['prefix' => 'categories'], function () {
+            Route::get('/', ['as' => 'index', 'uses' => 'CategoriesController@index']);
+        });
+    });
+
+});
+
+
