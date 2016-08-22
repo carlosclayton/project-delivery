@@ -37,12 +37,18 @@ Route::group(['middleware' => ['web']], function () {
 
     });
 
-    Route::group(['prefix' => 'admin'], function () {
-        Route::group(['prefix' => 'categories'], function () {
-            Route::get('/', ['as' => 'index', 'uses' => 'CategoriesController@index']);
-        });
-    });
+
 
 });
 
 
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::group(['prefix' => 'categories'], function () {
+        Route::get('/', ['as' => 'index', 'uses' => 'CategoriesController@index']);
+        Route::get('create', ['as' => 'create', 'uses' => 'CategoriesController@create']);
+        Route::post('store', ['as' => 'store', 'uses' => 'CategoriesController@store']);
+        Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'CategoriesController@edit']);
+    });
+});

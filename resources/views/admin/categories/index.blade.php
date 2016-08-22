@@ -4,6 +4,8 @@
     <div class="container">
         <h3>Categorias</h3>
 
+        <!-- Link usando nome de rota -->
+        <a href="{{route('create')}}"  class="btn btn-primary">Nova categoria</a>
         <table class="table">
             <thead>
             <th>
