@@ -25,30 +25,47 @@ Route::get('/test', function(){
 
 Route::group(['middleware' => ['web']], function () {
 
-    Route::group(['prefix' => 'auth'], function () {
 
-        Route::get('login', function () {
-            return view('auth.login');
-        });
 
-        Route::get('register', function () {
-            return view('auth.login');
-        });
 
+
+});
+
+Route::group(['prefix' => 'auth'], function () {
+
+    Route::get('login', function () {
+        return view('auth.login');
     });
 
-
+    Route::get('register', function () {
+        return view('auth.login');
+    });
 
 });
 
 
 
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'auth.checkrole'], function () {
+
+
+
+
     Route::group(['prefix' => 'categories'], function () {
         Route::get('/', ['as' => 'index', 'uses' => 'CategoriesController@index']);
         Route::get('create', ['as' => 'create', 'uses' => 'CategoriesController@create']);
         Route::post('store', ['as' => 'store', 'uses' => 'CategoriesController@store']);
+        Route::post('update/{id}', ['as' => 'update', 'uses' => 'CategoriesController@update']);
         Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'CategoriesController@edit']);
     });
+
+    Route::group(['prefix' => 'products'], function () {
+        Route::get('/', ['as' => 'index', 'uses' => 'ProductsController@index']);
+        Route::get('create', ['as' => 'create', 'uses' => 'ProductsController@create']);
+        Route::post('store', ['as' => 'store', 'uses' => 'ProductsController@store']);
+        Route::post('update/{id}', ['as' => 'update', 'uses' => 'ProductsController@update']);
+        Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'ProductsController@edit']);
+        Route::get('destroy/{id}', ['as' => 'destroy', 'uses' => 'ProductsController@destroy']);
+    });
+
 });

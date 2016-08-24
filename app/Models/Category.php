@@ -13,7 +13,7 @@ class Category extends Model implements Transformable
     protected $fillable = ['name'];
 
     public function products(){
-        return $this->hasMany(Category::class);
+        return $this->hasMany(Product::class);
     }
 
 }

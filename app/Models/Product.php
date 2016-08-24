@@ -13,7 +13,7 @@ class Product extends Model implements Transformable
     protected $fillable = ['name', 'category_id', 'description', 'price'];
 
     public function category(){
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Category::class);
     }
 
 }

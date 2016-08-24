@@ -8,18 +8,18 @@
         <a href="{{route('create')}}"  class="btn btn-primary">Nova categoria</a>
         <table class="table">
             <thead>
-            <th>
-            <td>ID</td>
-            <td>Nome</td>
-            <td>Ação</td>
-            </th>
+            <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Action</th>
+            </tr>
             </thead>
             <tbody>
             @foreach($categories as $category)
             <tr>
                 <td>{{ $category->id }}</td>
                 <td>{{ $category->name }}</td>
-                <td></td>
+                <td><a href="{{route('edit', ['id' => $category->id ])}}"  class="btn btn-primary">Editar</a></td>
             </tr>
             @endforeach
             </tbody>

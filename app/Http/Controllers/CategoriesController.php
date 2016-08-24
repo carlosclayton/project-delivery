@@ -23,15 +23,26 @@ class CategoriesController extends Controller
     }
 
     public function edit($id){
-        
-        return view('admin.categories.create');
+        $cat    =   $this->repository->find($id);
+
+        return view('admin.categories.edit', compact('cat'));
     }
+
 
     public function store(AdminCategoryRequest $request){
         //dd($request->all());
 
         $data = $request->all();
         $this->repository->create($data);
+        return redirect()->route('index');
+
+    }
+
+    public function update(AdminCategoryRequest $request, $id){
+        //dd($request->all());
+
+        $data = $request->all();
+        $this->repository->update($data, $id);
         return redirect()->route('index');
 
     }
