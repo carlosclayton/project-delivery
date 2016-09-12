@@ -34,8 +34,14 @@ class UserTableSeeder extends Seeder
             'remember_token' => str_random(10),
         ]);
 
-        factory(\Delivery\Models\User::class, 5)->create()->each(function($u){
+        factory(\Delivery\Models\User::class, 10)->create()->each(function($u){
             $u->client()->save(factory(\Delivery\Models\Client::class)->make());
         });
+
+        factory(\Delivery\Models\User::class, 3)->create([
+            'role' => 'deliveryman',
+        ]);
+
+
     }
 }

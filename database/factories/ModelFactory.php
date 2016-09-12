@@ -28,15 +28,6 @@ $factory->define(Delivery\Models\Category::class, function (Faker\Generator $fak
 });
 
 
-$factory->define(Delivery\Models\Product::class, function (Faker\Generator $faker) {
-    return [
-        'name' => $faker->word,
-        'description' => $faker->sentence,
-        'price' => $faker->numberBetween(10,50)
-    ];
-});
-
-
 $factory->define(Delivery\Models\Client::class, function (Faker\Generator $faker) {
     return [
         'phone' => $faker->phoneNumber,
@@ -47,4 +38,29 @@ $factory->define(Delivery\Models\Client::class, function (Faker\Generator $faker
     ];
 });
 
+
+$factory->define(Delivery\Models\Product::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->word,
+        'description' => $faker->sentence,
+        'price' => $faker->numberBetween(10,50)
+    ];
+});
+
+
+
+
+
+$factory->define(Delivery\Models\Order::class, function (Faker\Generator $faker) {
+    return [
+        'client_id' => rand(1, 10),
+        'total' => rand(1,100),
+        'status' => 0
+    ];
+});
+
+$factory->define(Delivery\Models\OrderItem::class, function (Faker\Generator $faker) {
+    return [
+    ];
+});
 

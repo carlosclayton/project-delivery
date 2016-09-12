@@ -3,19 +3,18 @@
 namespace Delivery\Http\Controllers;
 
 
-use Delivery\Http\Requests\AdminCategoryRequest;
 use Delivery\Http\Requests\AdminClientRequest;
-use Delivery\Http\Requests\AdminProductRequest;
-use Delivery\Repositories\CategoryRepository;
 use Delivery\Repositories\ClientRepository;
-use Delivery\Repositories\ProductRepository;
+use Delivery\Services\ClientService;
 
 class ClientsController extends Controller
 {
     private $repository;
+    private $service;
 
-    public function __construct(ClientRepository $repository){
+    public function __construct(ClientRepository $repository, ClientService $service){
         $this->repository = $repository;
+        $this->service = $service;
     }
 
     public function index(){
@@ -29,7 +28,6 @@ class ClientsController extends Controller
 
     public function edit($id){
         $client    =   $this->repository->find($id);
-
         return view('admin.clients.edit', compact('client'));
     }
 
@@ -38,7 +36,7 @@ class ClientsController extends Controller
         //dd($request->all());
 
         $data = $request->all();
-        $this->repository->create($data);
+        $this->service->create($data);
         return redirect()->route('index');
 
     }
@@ -47,7 +45,7 @@ class ClientsController extends Controller
         //dd($request->all());
 
         $data = $request->all();
-        $this->repository->update($data, $id);
+        $this->service->update($data, $id);
         return redirect()->route('index');
 
     }

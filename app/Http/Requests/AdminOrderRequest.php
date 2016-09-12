@@ -4,7 +4,7 @@ namespace Delivery\Http\Requests;
 
 use Delivery\Http\Requests\Request;
 
-class AdminClientRequest extends Request
+class AdminOrderRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,8 @@ class AdminClientRequest extends Request
     public function rules()
     {
         return [
-                'user.name' => 'required|min:5',
+                'status' => 'required',
+                'user_deliveryman_id' => 'required',
         ];
     }
 }

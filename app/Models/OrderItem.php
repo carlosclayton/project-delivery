@@ -10,7 +10,7 @@ class OrderItem extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $fillable = ['product_id', 'order_id', 'proce', 'qtd'];
+    protected $fillable = ['product_id', 'order_id', 'price', 'qtd'];
 
     public function product(){
         return $this->belongsTo(Product::class);
