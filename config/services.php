@@ -34,7 +34,7 @@ return [
     ],
 
     'stripe' => [
-        'model' => Delivery\User::class,
+        'model' => Delivery\Models\User::class,
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],

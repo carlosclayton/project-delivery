@@ -46,9 +46,7 @@ Route::group(['prefix' => 'auth'], function () {
 
 
 
-Route::group(['prefix' => 'admin', 'middleware' => 'auth.checkrole'], function () {
-
-
+Route::group(['prefix' => 'admin', 'middleware' => 'auth.checkrole:admin'], function () {
 
 
     Route::group(['prefix' => 'categories'], function () {
@@ -58,6 +56,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth.checkrole'], function (
         Route::post('update/{id}', ['as' => 'update', 'uses' => 'CategoriesController@update']);
         Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'CategoriesController@edit']);
     });
+
 
     Route::group(['prefix' => 'products'], function () {
         Route::get('/', ['as' => 'index', 'uses' => 'ProductsController@index']);
@@ -77,6 +76,15 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth.checkrole'], function (
         Route::get('destroy/{id}', ['as' => 'destroy', 'uses' => 'ClientsController@destroy']);
     });
 
+    Route::group(['prefix' => 'cupoms'], function () {
+        Route::get('/', ['as' => 'index', 'uses' => 'CupomsController@index']);
+        Route::get('create', ['as' => 'cupoms.create', 'uses' => 'CupomsController@create']);
+        Route::post('store', ['as' => 'cupoms.store', 'uses' => 'CupomsController@store']);
+        Route::post('update/{id}', ['as' => 'cupoms.update', 'uses' => 'CupomsController@update']);
+        Route::get('edit/{id}', ['as' => 'cupoms.edit', 'uses' => 'CupomsController@edit']);
+        Route::get('destroy/{id}', ['as' => 'cupoms.destroy', 'uses' => 'CupomsController@destroy']);
+    });
+
 
     Route::group(['prefix' => 'orders'], function () {
         Route::get('/', ['as' => 'index', 'uses' => 'OrdersController@index']);
@@ -86,5 +94,27 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth.checkrole'], function (
         Route::get('edit/{id}', ['as' => 'edit', 'uses' => 'OrdersController@edit']);
         Route::get('destroy/{id}', ['as' => 'destroy', 'uses' => 'OrdersController@destroy']);
     });
-
 });
+
+Route::group(['prefix' => 'customer'], function () {
+    Route::group(['prefix' => 'orders'], function () {
+        Route::get('/', ['as' => 'orders.index', 'uses' => 'CheckoutController@index']);
+        Route::get('create', ['as' => 'orders.create', 'uses' => 'CheckoutController@create']);
+    });
+});
+
+
+Route::post('oauth/access_token', function() {
+    return Response::json(Authorizer::issueAccessToken());
+});
+
+Route::group(['prefix' => 'api', 'middleware' => 'oauth'], function () {
+    Route::get('pedidos', function () {
+        return [
+            'id' => 1,
+            'client' => 'Carlos',
+            'total' => 10
+        ];
+    });
+});
+

@@ -158,6 +158,11 @@ return [
         Bestmomo\Scafold\ScafoldServiceProvider::class,
 
 
+        LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class,
+        LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider::class,
+
+
+
         /*
          * Application Service Providers...
          */
@@ -214,6 +219,7 @@ return [
 
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        'Authorizer' => LucaDegasperi\OAuth2Server\Facades\Authorizer::class,
 
     ],
 

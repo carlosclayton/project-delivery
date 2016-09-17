@@ -14,20 +14,18 @@ use Delivery\Validators\ProductValidator;
  */
 class ProductRepositoryEloquent extends BaseRepository implements ProductRepository
 {
-    /**
-     * Specify Model class name
-     *
-     * @return string
-     */
+
     public function model()
     {
         return Product::class;
     }
 
+    public function selectProds()
+    {
+        return $this->model->lists('name', 'id');
+    }
 
-    /**
-     * Boot up the repository, pushing criteria
-     */
+
     public function boot()
     {
         $this->pushCriteria(app(RequestCriteria::class));
