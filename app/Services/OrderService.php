@@ -21,7 +21,7 @@ class OrderService{
     private $cupomRepository;
 
     public function __construct(OrderRepository $orderRepository, CupomRepository $cupomRepository, ProductRepository $productRepository){
-        $this->clientRepository = $orderRepository;
+        $this->orderRepository = $orderRepository;
         $this->productRepository = $productRepository;
         $this->cupomRepository = $cupomRepository;
     }
@@ -34,6 +34,8 @@ class OrderService{
 
     public function create(array $data){
         $data['status'] = 0;
+
+        /*
         if(isset($data[cupom_code])){
             $cupom = $this->cupomRepository->findByField('code', $data['cupom_code'])->first();
             $data['cupom_id'] = $cupom->id;
@@ -41,6 +43,9 @@ class OrderService{
             $cupom->save();
             unset($data['cupom_code']);
         }
+        */
+
+
 
         $items = $data['items'];
         unset($data['items']);
@@ -55,11 +60,14 @@ class OrderService{
         }
 
         $order->total = $total;
+
         if(isset($cupom)){
             $order->total = $total - $cupom->value;
         }
 
         $order->save();
+        return $order;
+
 
 
 
