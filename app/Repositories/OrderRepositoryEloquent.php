@@ -2,11 +2,10 @@
 
 namespace Delivery\Repositories;
 
+use Illuminate\Support\Collection;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Delivery\Repositories\OrderRepository;
 use Delivery\Models\Order;
-use Delivery\Validators\OrderValidator;
 
 /**
  * Class OrderRepositoryEloquent
@@ -24,7 +23,18 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
         return Order::class;
     }
 
-    
+    public function getDeliverymanById($id, $deliverymanid){
+        $result = $this->with('client', 'items', 'cupoms')->findWhere(['id' => $id, 'user_deliveryman_id' => $deliverymanid]);
+        $result = $result->first();
+        if($result){
+            $result = $result->first();
+            $result->items->each(function($item){
+               $item->product;
+            });
+
+        }
+        return $result;
+    }
 
     /**
      * Boot up the repository, pushing criteria

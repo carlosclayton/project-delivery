@@ -9,6 +9,7 @@
 namespace Delivery\Services;
 
 
+use Delivery\Models\Order;
 use Delivery\Repositories\CupomRepository;
 use Delivery\Repositories\OrderRepository;
 use Delivery\Repositories\ProductRepository;
@@ -30,6 +31,17 @@ class OrderService{
         $this->orderRepository->update($data, $id);
         $userId = $this->orderRepository->find($id, ['user_id'])->user_id;
         $this->userRepository->update($data['user'], $userId);
+    }
+
+    public function updateStatus($id, $deliverymanid, $status){
+        $order = $this->orderRepository->getDeliverymanById($id, $deliverymanid);
+
+        if($order instanceof Order){
+            $order->status = $status;
+            $order->save();
+            return $order;
+        }
+        return false;
     }
 
     public function create(array $data){

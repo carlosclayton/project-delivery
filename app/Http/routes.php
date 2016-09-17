@@ -152,6 +152,12 @@ Route::group(['prefix' => 'api', 'middleware' => 'oauth', 'as' => 'api.'], funct
 
     Route::group(['prefix' => 'deliveryman', 'middleware' => 'oauth.checkrole:deliveryman', 'as' => 'client.'], function () {
 
+        Route::resource('order',
+            'Api\Deliveryman\DeliveryCheckoutController', ['except' => ['create', 'edit', 'destroy']
+            ]);
+
+        Route::patch('order/{id}/update-status',['uses' => 'Api\Deliveryman\DeliveryCheckoutController@updateStatus', 'as' => 'orders.update_status']);
+
         Route::get('pedidos', function () {
             return [
                 'id' => 1,
