@@ -2,6 +2,9 @@
 
 namespace Delivery\Repositories;
 
+
+
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Collection;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -18,21 +21,28 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
      *
      * @return string
      */
+
+    protected $skipPresenter = true;
     public function model()
     {
         return Order::class;
     }
 
-    public function getDeliverymanById($id, $deliverymanid){
-        $result = $this->with('client', 'items', 'cupoms')->findWhere(['id' => $id, 'user_deliveryman_id' => $deliverymanid]);
-        $result = $result->first();
-        if($result){
+    public function getDeliverymanById($id, $deliverymanid)
+    {
+        $result = $this->with(['client', 'items', 'cupom'])->findWhere(['id' => $id, 'user_deliveryman_id' => $deliverymanid]);
+        if($result instanceof Collection){
             $result = $result->first();
-            $result->items->each(function($item){
-               $item->product;
-            });
-
+        }else{
+            if(isset($result['data']) && count($result['data']) == 1){
+                $result = [
+                  'data' => $result['data'][0]
+                ];
+            }else{
+                throw new ModelNotFoundException('Order nao existe');
+            }
         }
+
         return $result;
     }
 
@@ -42,5 +52,10 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
     public function boot()
     {
         $this->pushCriteria(app(RequestCriteria::class));
+    }
+
+    public function presenter()
+    {
+        return \Delivery\Presenters\OrderPresenter::class;
     }
 }

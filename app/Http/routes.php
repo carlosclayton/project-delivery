@@ -111,9 +111,9 @@ Route::post('oauth/access_token', function() {
 
 
 
-Route::group(['prefix' => 'api', 'middleware' => 'oauth', 'as' => 'api.'], function () {
+Route::group(['prefix' => 'api', 'middleware' => 'oauth'], function () {
 
-    Route::group(['prefix' => 'client', 'middleware' => 'oauth.checkrole:client', 'as' => 'client.'], function () {
+    Route::group(['prefix' => 'client', 'middleware' => 'oauth.checkrole:client'], function () {
 
         Route::resource('order',
             'Api\Client\ClientCheckoutController', ['except' => ['create', 'edit', 'destroy']

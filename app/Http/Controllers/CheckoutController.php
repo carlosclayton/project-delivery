@@ -3,6 +3,7 @@
 namespace Delivery\Http\Controllers;
 
 
+use Delivery\Http\Requests\CheckoutRequest;
 use Delivery\Repositories\OrderRepository;
 use Delivery\Repositories\ProductRepository;
 use Delivery\Repositories\UserRepository;
@@ -46,7 +47,7 @@ class CheckoutController extends Controller
     }
 
 
-    public function store(AdminCheckoutRequest $request){
+    public function store(CheckoutRequest $request){
         //dd($request->all());
 
         $data = $request->all();
