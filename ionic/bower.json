@@ -1,0 +1,25 @@
+{
+  "name": "HelloIonic",
+  "private": true,
+  "devDependencies": {
+    "ionic": "driftyco/ionic-bower#1.3.1"
+  },
+  "homepage": "https://github.com/carlosclayton/project-delivery",
+  "authors": [
+    "Carlos Clayton <carlos.clayton@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "www/lib",
+    "test",
+    "tests"
+  ]
+}

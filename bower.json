@@ -1,0 +1,21 @@
+{
+  "name": "project-delivery",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Carlos Clayton <carlos.clayton@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/carlosclayton/project-delivery",
+  "moduleType": [
+    "amd",
+    "globals"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
