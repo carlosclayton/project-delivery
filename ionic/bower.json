@@ -21,5 +21,8 @@
     "www/lib",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "angular-oauth2": "~4.0.0"
+  }
 }

@@ -16,17 +16,13 @@ Route::get('/', function () {
 });
 
 
-
-Route::get('/test', function(){
-   $repository = app()->make('Delivery\Repositories\CategoryRepository');
-   return $repository->all();
+Route::get('/test', function () {
+    $repository = app()->make('Delivery\Repositories\CategoryRepository');
+    return $repository->all();
 });
 
 
 Route::group(['middleware' => ['web']], function () {
-
-
-
 
 
 });
@@ -42,8 +38,6 @@ Route::group(['prefix' => 'auth'], function () {
     });
 
 });
-
-
 
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth.checkrole:admin'], function () {
@@ -104,68 +98,69 @@ Route::group(['prefix' => 'customer'], function () {
 });
 
 
-Route::post('oauth/access_token', function() {
-    return Response::json(Authorizer::issueAccessToken());
-});
+Route::group(['middleware' => 'cors'], function () {
 
-
-
-
-Route::group(['prefix' => 'api', 'middleware' => 'oauth'], function () {
-
-    Route::group(['prefix' => 'client', 'middleware' => 'oauth.checkrole:client'], function () {
-
-        Route::resource('order',
-            'Api\Client\ClientCheckoutController', ['except' => ['create', 'edit', 'destroy']
-            ]);
-
-        /*
-        Route::get('order', function () {
-            return [
-                'Pegando dados'
-            ];
-        });
-
-        Route::post('order', function () {
-            return [
-                'Criando dados'
-            ];
-        });
-
-        Route::patch('order', function () {
-            return [
-                'Atualizando dados'
-            ];
-        });
-
-
-        Route::delete('order', function () {
-            return [
-                'Excluindo dados'
-            ];
-        });
-
-        */
-
-
+    Route::post('oauth/access_token', function () {
+        return Response::json(Authorizer::issueAccessToken());
     });
 
-    Route::group(['prefix' => 'deliveryman', 'middleware' => 'oauth.checkrole:deliveryman', 'as' => 'client.'], function () {
 
-        Route::resource('order',
-            'Api\Deliveryman\DeliveryCheckoutController', ['except' => ['create', 'edit', 'destroy']
-            ]);
+    Route::group(['prefix' => 'api', 'middleware' => 'oauth'], function () {
 
-        Route::patch('order/{id}/update-status',['uses' => 'Api\Deliveryman\DeliveryCheckoutController@updateStatus', 'as' => 'orders.update_status']);
+        Route::group(['prefix' => 'client', 'middleware' => 'oauth.checkrole:client'], function () {
 
-        Route::get('pedidos', function () {
-            return [
-                'id' => 1,
-                'client' => 'Entregador Carlos',
-                'total' => 10
-            ];
+            Route::resource('order',
+                'Api\Client\ClientCheckoutController', ['except' => ['create', 'edit', 'destroy']
+                ]);
+
+            /*
+            Route::get('order', function () {
+                return [
+                    'Pegando dados'
+                ];
+            });
+
+            Route::post('order', function () {
+                return [
+                    'Criando dados'
+                ];
+            });
+
+            Route::patch('order', function () {
+                return [
+                    'Atualizando dados'
+                ];
+            });
+
+
+            Route::delete('order', function () {
+                return [
+                    'Excluindo dados'
+                ];
+            });
+
+            */
+
+
         });
 
+        Route::group(['prefix' => 'deliveryman', 'middleware' => 'oauth.checkrole:deliveryman', 'as' => 'client.'], function () {
+
+            Route::resource('order',
+                'Api\Deliveryman\DeliveryCheckoutController', ['except' => ['create', 'edit', 'destroy']
+                ]);
+
+            Route::patch('order/{id}/update-status', ['uses' => 'Api\Deliveryman\DeliveryCheckoutController@updateStatus', 'as' => 'orders.update_status']);
+
+            Route::get('pedidos', function () {
+                return [
+                    'id' => 1,
+                    'client' => 'Entregador Carlos',
+                    'total' => 10
+                ];
+            });
+
+        });
     });
 });
 

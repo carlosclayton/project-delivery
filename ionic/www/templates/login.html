@@ -1,0 +1,24 @@
+
+
+<ion-view view-title="Login">
+    <ion-content class="padding">
+        <h2>Autenticar usuario</h2>
+        <form name="form" method="post" ng-submit="login()">
+
+            <div class="list list-inset">
+                <label class="item item-input">
+                    <input type="text" name="username" placeholder="Digite seu nome" ng-model="user.username" required="required">
+                </label>
+            </div>
+
+            <div class="list list-inset">
+                <label class="item item-input">
+                    <input class="item item-input" type="password" name="password" placeholder="Digite sua senha" ng-model="user.password" required="required">
+                </label>
+            </div>
+
+            <button type="submit" class="button button-full button-assertive"> Login </button>
+        </form>
+
+    </ion-content>
+</ion-view>
