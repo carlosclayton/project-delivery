@@ -5,9 +5,53 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.services', 'starter.controllers.login', 'starter.controllers.home', 'starter.controllers.detail', 'starter.controllers.dash', 'starter.controllers.chat', 'starter.controllers.account', 'angular-oauth2'])
+angular.module('starter', ['ionic', 'starter.services', 'starter.controllers', 'angular-oauth2', 'ngResource', 'ngCordova'])
 
-    .run(function ($ionicPlatform) {
+    .constant('appConfig', {
+        baseUrl: 'http://192.168.1.102:8000'
+    })
+    .value('meuValue', 'Carlos Clayton')
+    .provider('minhaCalculadora', function () {
+        var o = {
+            calcular: function () {
+                return this.largura * this.comprimento
+            }
+        };
+        return {
+            $get: function () {
+                o.largura = this.largura;
+                o.comprimento = this.comprimento;
+                return o;
+            }
+        }
+    })
+
+    .factory('meuFactory', function () {
+        return {
+            largura: 40,
+            comprimento: 40,
+            minhaFuncao: function () {
+                console.log(this.largura * this.comprimento);
+            }
+        };
+    })
+    .service('meuService', function () {
+        this.largura = 40;
+        this.comprimento = 40;
+        this.minhaFuncao = function () {
+            console.log(this.largura * this.comprimento);
+        }
+    })
+
+    .service('cart', function () {
+        this.items = [];
+    })
+
+    .run(function ($ionicPlatform, meuValue, meuService, meuFactory) {
+
+        meuService.minhaFuncao();
+        meuFactory.minhaFuncao();
+        console.log(meuValue);
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -23,11 +67,14 @@ angular.module('starter', ['ionic', 'starter.services', 'starter.controllers.log
         });
     })
 
-    .config(function ($stateProvider, $urlRouterProvider, OAuthProvider, OAuthTokenProvider) {
+    .config(function ($stateProvider, $urlRouterProvider, OAuthProvider, OAuthTokenProvider, minhaCalculadoraProvider, appConfig, $provide) {
+
+        minhaCalculadoraProvider.largura = 80;
+        minhaCalculadoraProvider.comprimento = 80;
 
 
         OAuthProvider.configure({
-            baseUrl: 'http://localhost:8000',
+            baseUrl: appConfig.baseUrl,
             clientId: 'app01',
             clientSecret: 'secret', // optional
             grantPath: '/oauth/access_token'
@@ -53,7 +100,37 @@ angular.module('starter', ['ionic', 'starter.services', 'starter.controllers.log
                 templateUrl: 'templates/login.html',
                 controller: 'LoginCtrl'
             })
+            .state('client', {
+                url: '/client',
+                abstract: true,
+                template: '<ui-view>'
+            })
 
+            .state('client.checkout', {
+                cache: false,
+                url: '/checkout',
+                templateUrl: 'templates/client/checkout.html',
+                controller: 'ClientCheckoutCtrl'
+            })
+
+            .state('client.checkout_item_detail', {
+                url: '/checkout/detail/:index',
+                templateUrl: 'templates/client/checkout_item_detail.html',
+                controller: 'ClientCheckoutDetailCtrl'
+            })
+
+            .state('client.checkout_successful', {
+                cache: false,
+                url: '/checkout/successful',
+                templateUrl: 'templates/client/checkout_successful.html',
+                controller: 'ClientCheckoutSuccessfulCtrl'
+            })
+
+            .state('client.view_products', {
+                url: '/view_products',
+                templateUrl: 'templates/client/view_products.html',
+                controller: 'ClientViewProductCtrl'
+            })
 
             .state('tab', {
                 url: '/tab',
@@ -112,7 +189,36 @@ angular.module('starter', ['ionic', 'starter.services', 'starter.controllers.log
                 }
             });
 
-        // if none of the above states are matched, use this as the fallback
-        //$urlRouterProvider.otherwise('/tab/dash');
 
+        // if none of the above states are matched, use this as the fallback
+        $urlRouterProvider.otherwise('/login');
+
+        $provide.decorator('OAuthToken', ['$localStorage', '$delegate', function ($localStorage, $delegate) {
+            Object.defineProperties($delegate, {
+                setToken: {
+                    value: function (data) {
+                        return $localStorage.setObject('token', data);
+                    },
+                    enumerable: true,
+                    configurable: true,
+                    writable: true
+                },
+                getToken: {
+                    value: function (data) {
+                        return $localStorage.getObject('token');
+                    },
+                    enumerable: true,
+                    configurable: true,
+                    writable: true
+                }, removeToken: {
+                    value: function (data) {
+                        $localStorage.setObject('token', null);
+                    },
+                    enumerable: true,
+                    configurable: true,
+                    writable: true
+                }
+            });
+            return $delegate;
+        }]);
     });

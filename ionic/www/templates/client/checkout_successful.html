@@ -1,0 +1,34 @@
+<ion-view>
+    <ion-nav-title>PEDIDO REALIZADO COM SUCESSO</ion-nav-title>
+    <div class="bar bar-subheader">
+        <h2 class="title">Total pedido: R$ {{total}}</h2>
+    </div>
+
+    <ion-content class="padding has-subheader">
+        <ion-list show-delete="showDelete">
+
+            <ion-item class="item item-balanced item-icon-left" ng-show="cupom.value != null">
+                <strong>Cupom</strong>
+                <span class="icon ion-close"></span>
+                <span class="badge badge-dark"> - R$ {{ cupom.value }}</span>
+            </ion-item>
+
+            <ion-item ng-repeat="o in items">
+                {{o.name}}
+                <div class="row">
+                    <div class="col">
+                        QTD: {{o.qtd}} <br>
+                        <i class="ion ion-cash"> {{o.price}}</i>
+                    </div>
+                    <div class="col text-right">
+                        <i class="ion ion-social-usd"> {{o.qtd * o.price}}</i>
+                    </div>
+                </div>
+                <ion-delete-button class="ion ion-minus-circled" ng-click="removeItem($index)"></ion-delete-button>
+            </ion-item>
+            <button type="button" class="button button-assertive button-full" ng-click="openListOrder()">Ver pedidos</button>
+        </ion-list>
+
+    </ion-content>
+
+</ion-view>

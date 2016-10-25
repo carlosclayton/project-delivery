@@ -1,4 +1,4 @@
-angular.module('starter.controllers.login', [])
+angular.module('starter.controllers')
     .controller('LoginCtrl', ['$scope', 'OAuth', '$cookies', '$ionicPopup', '$state', function ($scope, OAuth, $cookies, $ionicPopup, $state) {
 
         $scope.user = {
@@ -9,7 +9,7 @@ angular.module('starter.controllers.login', [])
         $scope.login = function () {
             OAuth.getAccessToken($scope.user)
                 .then(function (data) {
-                    $state.go('tab.dash');
+                    $state.go('client.checkout');
                     console.log(data);
                     console.log($cookies.getObject('token'));
                 }, function (responseError) {

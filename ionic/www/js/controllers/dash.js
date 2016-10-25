@@ -1,3 +1,3 @@
-angular.module('starter.controllers.dash', []).
-    controller('DashCtrl', function($scope) {
+angular.module('starter.controllers')
+    .controller('DashCtrl', function($scope ) {
     });

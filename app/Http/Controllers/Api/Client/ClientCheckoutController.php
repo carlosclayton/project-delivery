@@ -40,12 +40,6 @@ class ClientCheckoutController extends Controller
         return $orders;
     }
 
-    public function edit($id){
-        $cat    =   $this->repository->find($id);
-
-        return view('admin.cupoms.edit', compact('cat'));
-    }
-
 
     public function store(CheckoutRequest $request){
         //dd($request->all());
@@ -59,14 +53,6 @@ class ClientCheckoutController extends Controller
 
     }
 
-    public function update(Request $request, $id){
-        //dd($request->all());
-
-        $data = $request->all();
-        $this->repository->update($data, $id);
-        return redirect()->route('index');
-
-    }
 
     public function show($id){
         //$order = $this->orderRepository->skipPresenter()->with(['items','client','cupom'])->find($id);

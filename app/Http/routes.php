@@ -113,6 +113,9 @@ Route::group(['middleware' => 'cors'], function () {
                 'Api\Client\ClientCheckoutController', ['except' => ['create', 'edit', 'destroy']
                 ]);
 
+
+            Route::get('products', 'Api\Client\ClientProductController@index');
+
             /*
             Route::get('order', function () {
                 return [
@@ -150,6 +153,7 @@ Route::group(['middleware' => 'cors'], function () {
                 'Api\Deliveryman\DeliveryCheckoutController', ['except' => ['create', 'edit', 'destroy']
                 ]);
 
+
             Route::patch('order/{id}/update-status', ['uses' => 'Api\Deliveryman\DeliveryCheckoutController@updateStatus', 'as' => 'orders.update_status']);
 
             Route::get('pedidos', function () {
@@ -161,6 +165,10 @@ Route::group(['middleware' => 'cors'], function () {
             });
 
         });
+
+
+
+        Route::get('cupom/{code}', 'Api\Cupom\CupomController@show');
     });
 });
 
