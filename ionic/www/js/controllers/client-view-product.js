@@ -20,8 +20,8 @@ angular.module('starter.controllers')
         });
 
         Product.query({}, function(data){
-            //console.log('Listagem');
-            //console.log(data);
+            console.log('Listagem');
+            console.log(data);
 
             $scope.products = data.data;
             $ionicLoading.hide();

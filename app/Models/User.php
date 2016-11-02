@@ -11,15 +11,21 @@ class User extends Authenticatable implements Transformable
 {
     use TransformableTrait;
 
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+
     protected $fillable = [
         'name', 'email', 'password',
     ];
 
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    protected $hidden = ['password', 'remember_token'];
 
-    public function client(){
+
+    public function client()
+    {
         return $this->hasOne(Client::class);
     }
 

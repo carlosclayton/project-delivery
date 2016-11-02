@@ -5,10 +5,10 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.services', 'starter.controllers', 'angular-oauth2', 'ngResource', 'ngCordova'])
+angular.module('starter', ['ionic', 'starter.services', 'starter.controllers', 'angular-oauth2', 'ngResource', 'ngCordova', 'starter.filters'])
 
     .constant('appConfig', {
-        baseUrl: 'http://192.168.1.102:8000'
+        baseUrl: 'http://192.168.1.30:8000'
     })
     .value('meuValue', 'Carlos Clayton')
     .provider('minhaCalculadora', function () {
@@ -94,6 +94,63 @@ angular.module('starter', ['ionic', 'starter.services', 'starter.controllers', '
         $stateProvider
             // setup an abstract state for the tabs directive
 
+            .state('menu', {
+                url: '/menu',
+                templateUrl: 'templates/menu.html',
+                controller: function($scope){
+
+                }
+                /*
+                controller: function($scope, $ionicSideMenuDelegate){
+                    $scope.abrirEsquerdo = function(){
+                        $ionicSideMenuDelegate.toggleLeft();
+                    }
+                    $scope.abrirDireito = function(){
+                        $ionicSideMenuDelegate.toggleRight();
+                    }
+
+                }
+                */
+            })
+            .state('menu.a', {
+                url: '/a',
+                template: '<ion-view>' +
+                '<ion-content class="has-header">' +
+                '<h1>Estamos na A </h1>' +
+                '<a ui-sref="menu.b">Ir para B</a><br />' +
+                '<a ui-sref="menu.a">Ir para A</a><br />' +
+                '</ion-content>' +
+                '</ion-view>',
+                controller: function($scope){
+
+                }
+            })
+            .state('menu.b', {
+                url: '/b',
+                template: '<ion-view>' +
+                '<ion-content class="has-header">' +
+                '<h1>Estamos na B </h1>' +
+                '<a ui-sref="menu.a">Ir para A</a><br />' +
+                '<a ui-sref="menu.c">Ir para C</a><br />' +
+                '</ion-content>' +
+                '</ion-view>',
+                controller: function($scope){
+
+                }
+            })
+            .state('menu.c', {
+                url: '/c',
+                template: '<ion-view>' +
+                '<ion-content class="has-header">' +
+                '<h1>Estamos na C </h1>' +
+                '<a ui-sref="menu.a">Ir para A</a><br />' +
+                '<a ui-sref="menu.b">Ir para B</a><br />' +
+                '</ion-content>' +
+                '</ion-view>',
+                controller: function($scope){
+
+                }
+            })
 
             .state('login', {
                 url: '/login',
@@ -101,9 +158,21 @@ angular.module('starter', ['ionic', 'starter.services', 'starter.controllers', '
                 controller: 'LoginCtrl'
             })
             .state('client', {
-                url: '/client',
                 abstract: true,
-                template: '<ui-view>'
+                url: '/client',
+                templateUrl: 'templates/client/menu.html',
+                controller: 'ClientMenuCtrl'
+            })
+
+            .state('client.order', {
+                url: '/order',
+                templateUrl: 'templates/client/order.html',
+                controller: 'ClientOrderCtrl'
+            })
+            .state('client.view_order', {
+                url: '/view_order/:id',
+                templateUrl: 'templates/client/view_order.html',
+                controller: 'ClientViewOrderCtrl'
             })
 
             .state('client.checkout', {

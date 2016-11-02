@@ -8,6 +8,6 @@ angular.module('starter.controllers')
 
 
         $scope.openListOrder = function(){
-
+            $state.go('client.order');
         };
     }]);

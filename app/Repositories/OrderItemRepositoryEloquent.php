@@ -4,9 +4,8 @@ namespace Delivery\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Delivery\Repositories\OrderItemRepository;
+use Delivery\Presenters\OrderItemPresenter;
 use Delivery\Models\OrderItem;
-use Delivery\Validators\OrderItemValidator;
 
 /**
  * Class OrderItemRepositoryEloquent
@@ -32,5 +31,10 @@ class OrderItemRepositoryEloquent extends BaseRepository implements OrderItemRep
     public function boot()
     {
         $this->pushCriteria(app(RequestCriteria::class));
+    }
+
+    public function presenter(){
+        return OrderitemPresenter::class;
+
     }
 }

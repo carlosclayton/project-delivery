@@ -1,13 +1,13 @@
 angular.module('starter.services')
     .service('$cart', ['$localStorage', function ($localStorage) {
         var key = 'cart', cartAux = $localStorage.getObject(key);
-        //initCart();
+        initCart();
 
         //console.log($localStorage.getObject(key));
 
 
         if (!cartAux) {
-            this.clear();
+            initCart();
         }
 
         this.clear = function () {

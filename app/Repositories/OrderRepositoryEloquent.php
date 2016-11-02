@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Delivery\Models\Order;
+use Delivery\Presenters\OrderPresenter;
 
 /**
  * Class OrderRepositoryEloquent
@@ -23,6 +24,7 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
      */
 
     protected $skipPresenter = true;
+
     public function model()
     {
         return Order::class;
@@ -30,7 +32,7 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
 
     public function getDeliverymanById($id, $deliverymanid)
     {
-        $result = $this->with(['client', 'items', 'cupom'])->findWhere(['id' => $id, 'user_deliveryman_id' => $deliverymanid]);
+        $result = $this->with(['client','items','cupom'])->findWhere(['id' => $id, 'user_deliveryman_id' => $deliverymanid]);
         if($result instanceof Collection){
             $result = $result->first();
         }else{
@@ -56,6 +58,6 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
 
     public function presenter()
     {
-        return \Delivery\Presenters\OrderPresenter::class;
+        return OrderPresenter::class;
     }
 }

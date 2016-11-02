@@ -9,8 +9,6 @@ use Delivery\Repositories\OrderRepository;
 use Delivery\Repositories\ProductRepository;
 use Delivery\Repositories\UserRepository;
 use Delivery\Services\OrderService;
-use Illuminate\Http\Request;
-
 use LucaDegasperi\OAuth2Server\Facades\Authorizer;
 
 
@@ -31,9 +29,12 @@ class ClientCheckoutController extends Controller
 
     public function index(){
         $id = Authorizer::getResourceOwnerId();
-        $clientId = $this->userRepository->find($id)->client->id;
+        //dd($this->userRepository->skipPresenter(true)->find($id));
+        $clientId = $this->userRepository->skipPresenter(true)->find($id)->client->id;
+        //dd($clientId);
         $orders = $this->orderRepository->skipPresenter(false)
-        ->with($this->with)->scopeQuery(function($query) use ($clientId) {
+        ->with($this->with)
+            ->scopeQuery(function($query) use ($clientId) {
            return $query->where('client_id', '=', $clientId);
         })->paginate();
 
@@ -45,21 +46,21 @@ class ClientCheckoutController extends Controller
         //dd($request->all());
         $id = Authorizer::getResourceOwnerId();
         $data = $request->all();
-        $clientId = $this->userRepository->find($id)->client->id;
+        $clientId = $this->userRepository->skipPresenter(true)->find($id)->client->id;
         $data['client_id'] = $clientId;
         $ret = $this->service->create($data);
         return $this->orderRepository->skipPresenter(false)
-            ->with($this->with)->find($ret->id);
+            ->with($this->with)
+            ->find($ret->id);
 
     }
 
 
     public function show($id){
-        //$order = $this->orderRepository->skipPresenter()->with(['items','client','cupom'])->find($id);
+        //return $this->orderRepository->skipPresenter()->with(['items','client','cupom'])->find($id);
 
 
-        return $this->orderRepository->skipPresenter(false)
-        ->with($this->with)->find($id);
+        return $this->orderRepository->skipPresenter(false)->with($this->with)->find($id);
 
 
     }

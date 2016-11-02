@@ -114,7 +114,7 @@ Route::group(['middleware' => 'cors'], function () {
                 ]);
 
 
-            Route::get('products', 'Api\Client\ClientProductController@index');
+            Route::get('products',['as' => 'api.client.products', 'uses' => 'Api\Client\ClientProductController@index']);
 
             /*
             Route::get('order', function () {
@@ -167,7 +167,8 @@ Route::group(['middleware' => 'cors'], function () {
         });
 
 
-
+        // Endpoint
+        Route::get('authenticated', 'Api\UserController@authenticated');
         Route::get('cupom/{code}', 'Api\Cupom\CupomController@show');
     });
 });

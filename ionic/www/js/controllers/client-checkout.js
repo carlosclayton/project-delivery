@@ -1,6 +1,6 @@
 angular.module('starter.controllers')
-    .controller('ClientCheckoutCtrl', ['$scope', '$state', '$cart', '$localStorage', '$ionicLoading', '$ionicPopup', 'Order', 'Cupom', '$cordovaBarcodeScanner',
-        function ($scope, $state, $cart, $localStorage, $ionicLoading, $ionicPopup, Order, Cupom, $cordovaBarcodeScanner) {
+    .controller('ClientCheckoutCtrl', ['$scope', '$state', '$cart', '$localStorage', '$ionicLoading', '$ionicPopup', 'Order', 'Cupom', '$cordovaBarcodeScanner','User',
+        function ($scope, $state, $cart, $localStorage, $ionicLoading, $ionicPopup, Order, Cupom, $cordovaBarcodeScanner, User) {
             var cart = $cart.get();
             /*
              Cupom.get({code: 102}, function(data){
@@ -12,6 +12,11 @@ angular.module('starter.controllers')
 
              });
              */
+            User.authenticated({include:'client'}, function(data){
+                    console.log(data.data);
+            }, function(responseError){
+
+            });
 
             $scope.cupom = cart.cupom;
             $scope.items = cart.items;
@@ -24,17 +29,18 @@ angular.module('starter.controllers')
             };
             //console.log($localStorage.getObject('cart'));
             //console.log(cart);
+
             $scope.openProductDetail = function (i) {
                 console.log(i);
                 $state.go('client.checkout_item_detail', {index: i});
             };
+
 
             $scope.openListProducts = function () {
                 $state.go('client.view_products');
             };
 
             $scope.save = function () {
-                //var items = angular.copy($scope.items);
                 var o = {items: angular.copy($scope.items)};
                 angular.forEach(o.items, function (item) {
                     item.product_id = item.id;
@@ -61,8 +67,8 @@ angular.module('starter.controllers')
             };
 
             $scope.readBarCode = function () {
-                getValueCupom(102);
-                /*
+                //getValueCupom(102);
+
                 $cordovaBarcodeScanner
                     .scan()
                     .then(function (barcodeData) {
@@ -73,7 +79,7 @@ angular.module('starter.controllers')
                             template: 'Não foi possível ler o código de barra, tente novamente.'
                         })
                     });
-                    */
+
 
             };
 
