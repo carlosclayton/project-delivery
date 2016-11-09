@@ -28,6 +28,7 @@ class UserTransformer extends TransformerAbstract
             'name' => $model->name,
             'email' => $model->email,
             'role' => $model->role,
+            'device_token' => $model->device_token,
 
             'created_at' => $model->created_at,
             'updated_at' => $model->updated_at
@@ -36,6 +37,11 @@ class UserTransformer extends TransformerAbstract
 
     public function includeClient(User $model)
     {
-        return $this->item($model->client, new ClientTransformer());
+        if($model->client) {
+            return $this->item($model->client, new ClientTransformer());
+        }else{
+            return null;
+        }
+
     }
 }

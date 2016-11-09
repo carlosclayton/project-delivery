@@ -11,6 +11,11 @@
 |
 */
 
+Route::get('info', function(){
+    phpinfo();
+});
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -163,12 +168,14 @@ Route::group(['middleware' => 'cors'], function () {
                     'total' => 10
                 ];
             });
+            Route::post('order/{id}/geo',['uses' => 'Api\Deliveryman\DeliveryCheckoutController@geo', 'as' => 'orders.geo']);
 
         });
 
 
         // Endpoint
         Route::get('authenticated', 'Api\UserController@authenticated');
+        Route::patch('device_token', 'Api\UserController@updateDeviceToken');
         Route::get('cupom/{code}', 'Api\Cupom\CupomController@show');
     });
 });

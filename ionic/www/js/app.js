@@ -5,10 +5,12 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.services', 'starter.controllers', 'angular-oauth2', 'ngResource', 'ngCordova', 'starter.filters'])
+angular.module('starter', ['ionic','ionic.service.core', 'starter.services', 'starter.controllers', 'angular-oauth2', 'ngResource', 'ngCordova', 'starter.filters', 'uiGmapgoogle-maps', 'pusher-angular'])
 
     .constant('appConfig', {
-        baseUrl: 'http://192.168.1.30:8000'
+        baseUrl: 'http://192.168.1.101:8000',
+        //baseUrl: 'http://172.16.1.180:8000',
+        pusherKey: '87930d54ca1c35677b31'
     })
     .value('meuValue', 'Carlos Clayton')
     .provider('minhaCalculadora', function () {
@@ -47,12 +49,29 @@ angular.module('starter', ['ionic', 'starter.services', 'starter.controllers', '
         this.items = [];
     })
 
-    .run(function ($ionicPlatform, meuValue, meuService, meuFactory) {
+    .run(function ($ionicPlatform, meuValue, meuService, meuFactory, $window, appConfig, $localStorage) {
+        $window.client = new Pusher(appConfig.pusherKey);
+
+
 
         meuService.minhaFuncao();
         meuFactory.minhaFuncao();
         console.log(meuValue);
         $ionicPlatform.ready(function () {
+
+            Ionic.io();
+            var push = new Ionic.Push({
+               debug: true,
+                onNotification: function(message){
+                    console.log(message);
+                }
+
+            });
+
+            push.register(function(token){
+                console.log(token);
+                $localStorage.set('device_token', token.token);
+            })
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
             if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -159,6 +178,7 @@ angular.module('starter', ['ionic', 'starter.services', 'starter.controllers', '
             })
             .state('client', {
                 abstract: true,
+                cache: false,
                 url: '/client',
                 templateUrl: 'templates/client/menu.html',
                 controller: 'ClientMenuCtrl'
@@ -173,6 +193,12 @@ angular.module('starter', ['ionic', 'starter.services', 'starter.controllers', '
                 url: '/view_order/:id',
                 templateUrl: 'templates/client/view_order.html',
                 controller: 'ClientViewOrderCtrl'
+            })
+
+            .state('client.view_delivery', {
+                url: '/view_delivery/:id',
+                templateUrl: 'templates/client/view_delivery.html',
+                controller: 'ClientViewDeliveryCtrl'
             })
 
             .state('client.checkout', {
@@ -199,6 +225,25 @@ angular.module('starter', ['ionic', 'starter.services', 'starter.controllers', '
                 url: '/view_products',
                 templateUrl: 'templates/client/view_products.html',
                 controller: 'ClientViewProductCtrl'
+            })
+
+            .state('deliveryman', {
+                abstract: true,
+                cache: false,
+                url: '/deliveryman',
+                templateUrl: 'templates/deliveryman/menu.html',
+                controller: 'DeliverymanMenuCtrl'
+            })
+            .state('deliveryman.order', {
+                url: '/order',
+                templateUrl: 'templates/deliveryman/order.html',
+                controller: 'DeliverymanOrderCtrl'
+            })
+            .state('deliveryman.view_order', {
+                cache: false,
+                url: '/view_order/:id',
+                templateUrl: 'templates/deliveryman/view_order.html',
+                controller: 'DeliverymanViewOrderCtrl'
             })
 
             .state('tab', {

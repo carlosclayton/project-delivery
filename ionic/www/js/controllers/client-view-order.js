@@ -1,7 +1,7 @@
 angular.module('starter.controllers')
     .controller('ClientViewOrderCtrl', [
-        '$scope', '$stateParams', 'appConfig', '$http', '$resource', 'Product', '$ionicLoading',  '$localStorage', 'Order',
-        function($scope, $stateParams, appConfig, $http, $resource, Product, $ionicLoading, $localStorage, Order) {
+        '$scope', '$stateParams', 'appConfig', '$http', '$resource', 'Product', '$ionicLoading',  '$localStorage', 'ClientOrder',
+        function($scope, $stateParams, appConfig, $http, $resource, Product, $ionicLoading, $localStorage, ClientOrder) {
 
 
 
@@ -12,7 +12,7 @@ angular.module('starter.controllers')
             template: 'Carregando...'
         });
 
-        Order.get({id: $stateParams.id, include: "items,cupom"}, function(data){
+            ClientOrder.get({id: $stateParams.id, include: "items,cupom"}, function(data){
 
             $scope.order = data.data;
             $ionicLoading.hide();

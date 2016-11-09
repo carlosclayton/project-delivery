@@ -3,7 +3,10 @@
 namespace Delivery\Http\Controllers\Api;
 
 use Delivery\Http\Controllers\Controller;
+
 use Delivery\Repositories\UserRepository;
+
+use Illuminate\Http\Request;
 use LucaDegasperi\OAuth2Server\Facades\Authorizer;
 
 class UserController extends Controller
@@ -33,5 +36,13 @@ class UserController extends Controller
     public function authenticated(){
         $id = Authorizer::getResourceOwnerId();
         return $this->userRepository->skipPresenter(false)->find($id);
+    }
+
+    public function updateDeviceToken(Request $request){
+        $id = Authorizer::getResourceOwnerId();
+        $device_token = $request->get('device_token');
+        //dd($device_token);
+        return $this->userRepository->skipPresenter(false)->updateDeviceToken($id, $device_token );
+
     }
 }

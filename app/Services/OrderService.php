@@ -9,50 +9,72 @@
 namespace Delivery\Services;
 
 
-use Delivery\Models\Order;
+
 use Delivery\Repositories\CupomRepository;
 use Delivery\Repositories\OrderRepository;
 use Delivery\Repositories\ProductRepository;
+use Dmitrovskiy\IonicPush\PushProcessor;
 
-class OrderService{
+
+class OrderService
+{
 
     private $orderRepository;
     private $userRepository;
     private $productRepository;
     private $cupomRepository;
+    private $pushProcessor;
 
-    public function __construct(OrderRepository $orderRepository, CupomRepository $cupomRepository, ProductRepository $productRepository){
+    public function __construct(OrderRepository $orderRepository, CupomRepository $cupomRepository, ProductRepository $productRepository, PushProcessor $pushProcessor)
+    {
         $this->orderRepository = $orderRepository;
         $this->productRepository = $productRepository;
         $this->cupomRepository = $cupomRepository;
+        $this->pushProcessor = $pushProcessor;
     }
 
-    public function update(array $data, $id){
+    public function update(array $data, $id)
+    {
         $this->orderRepository->update($data, $id);
         $userId = $this->orderRepository->find($id, ['user_id'])->user_id;
         $this->userRepository->update($data['user'], $userId);
     }
 
-    public function updateStatus($id, $deliverymanid, $status){
+    public function updateStatus($id, $deliverymanid, $status)
+    {
         $order = $this->orderRepository->getDeliverymanById($id, $deliverymanid);
+        $order->status = $status;
+        switch((int) $status){
+            case 1:
+                if(!$order->hash ){
+                    $order->hash = md5((new \DateTime())->getTimestamp());
+                }
+                $order->save();
+                break;
+            case 2:
+                $user = $order->client->user;
+                $order->save();
+                //dd($user->device_token);
+                $this->pushProcessor->notify([$user->device_token],[
+                    'message' => "Seu pedido {$order->id} foi entregue"
+                ]);
+                break;
 
-        if($order instanceof Order){
-            $order->status = $status;
-            $order->save();
-            return $order;
         }
-        return false;
+
+        return $order;
     }
 
-    public function create(array $data){
+    public function create(array $data)
+    {
         $data['status'] = 0;
 
-        if(isset($data['cupom_id'])){
+        if (isset($data['cupom_id'])) {
             unset($data['cupom_id']);
         }
 
 
-        if(isset($data['cupom_code'])){
+        if (isset($data['cupom_code'])) {
             $cupom = $this->cupomRepository->findByField('code', $data['cupom_code'])->first();
             $data['cupom_id'] = $cupom->id;
             $cupom->used = 1;
@@ -66,7 +88,7 @@ class OrderService{
         $order = $this->orderRepository->create($data);
         $total = 0;
 
-        foreach($items as $item){
+        foreach ($items as $item) {
             $item['price'] = $this->productRepository->find($item['product_id'])->price;
             $order->items()->create($item);
             $total += $item['price'] * $item['qtd'];
@@ -74,15 +96,12 @@ class OrderService{
 
         $order->total = $total;
 
-        if(isset($cupom)){
+        if (isset($cupom)) {
             $order->total = $total - $cupom->value;
         }
 
         $order->save();
         return $order;
-
-
-
 
 
     }

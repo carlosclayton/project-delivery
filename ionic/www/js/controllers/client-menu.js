@@ -1,17 +1,5 @@
 angular.module('starter.controllers')
-    .controller('ClientMenuCtrl', ['$scope', '$state', '$stateParams', 'User', '$ionicLoading', function ($scope, $state, $stateParams, User, $ionicLoading) {
-        $scope.user = {
-            name: ''
-        }
-        $ionicLoading.show({
-            template: 'Carregando...'
-        });
-
-        User.authenticated({}, function (data) {
-            $scope.user = data.data;
-            $ionicLoading.hide();
-        }, function(dataError){
-            $ionicLoading.hide();
-        })
-
+    .controller('ClientMenuCtrl', ['$scope', '$state', '$stateParams', 'UserData', '$ionicLoading',
+        function ($scope, $state, $stateParams, UserData, $ionicLoading) {
+        $scope.user = UserData.get();
     }]);

@@ -5,6 +5,12 @@
     "license": "MIT",
     "type": "project",
     "minimum-stability":"dev",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/codeedu/ionic-push-php.git"
+        }
+    ],
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
@@ -14,7 +20,10 @@
         "laravelcollective/html": "5.2.*",
         "lucadegasperi/oauth2-server-laravel": "^5.2@dev",
         "league/fractal": "^0.13.0@dev",
-        "barryvdh/laravel-cors": "^0.8.0@dev"
+        "barryvdh/laravel-cors": "^0.8.0@dev",
+        "pusher/pusher-php-server": "~2.0",
+        "dmitrovskiy/ionic-push-php": "0.0.3"
+
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
