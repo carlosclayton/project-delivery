@@ -1,6 +1,6 @@
 angular.module('starter.controllers')
-    .controller('LoginCtrl', ['$scope', 'OAuth', 'OAuthToken', '$cookies', '$ionicPopup', '$state', '$q', 'UserData', 'User', '$localStorage',
-        function ($scope, OAuth, OAuthToken, $cookies, $ionicPopup, $state, $q, UserData, User, $localStorage) {
+    .controller('LoginCtrl', ['$scope', 'OAuth', 'OAuthToken', '$cookies', '$ionicPopup', '$state', '$q', 'UserData', 'User', '$localStorage', '$redirect',
+        function ($scope, OAuth, OAuthToken, $cookies, $ionicPopup, $state, $q, UserData, User, $localStorage, $redirect) {
 
             $scope.user = {
                 username: '',
@@ -20,30 +20,39 @@ angular.module('starter.controllers')
              */
 
             $scope.login = function () {
+                OAuth.getAccessToken($scope.user)
+                .then(function(data){
+                console.log(data);
+                }, function(responseError){
+                    console.debug(responseError);
+                });
+                /*
                 var promise = OAuth.getAccessToken($scope.user);
                 promise
                     .then(function (data) {
                         var token = $localStorage.get('device_token');
-                        return User.updateDeviceToken({},{device_token: token }).$promise;
+                        return User.updateDeviceToken({}, {device_token: token}).$promise;
                     })
                     .then(function (data) {
-                    return User.authenticated({include: 'client'}).$promise;
-                })
-                    .then(function(data){
+                        return User.authenticated({include: 'client'}).$promise;
+                    })
+                    .then(function (data) {
                         console.log(data.data);
                         UserData.set(data.data);
-                        $state.go('client.checkout');
-                }, function (dataError) {
+                        //$state.go('client.checkout');
+                        $redirect.redirecAfterLogin();
+                    }, function (responseError) {
                         UserData.set(null);
                         OAuthToken.removeToken();
                         $ionicPopup.alert({
                             title: 'Erro de autenticação',
                             template: 'Dados incorretos, tente novamente.'
                         });
-                        console.log(dataError);
+                        console.debug(responseError);
 
-                })
-        }
-}]);
+                    });
+                    */
+            }
+        }]);
 
 

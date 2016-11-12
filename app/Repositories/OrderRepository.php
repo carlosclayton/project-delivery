@@ -12,4 +12,5 @@ interface OrderRepository extends RepositoryInterface
 {
     //
     public function getDeliverymanById($id, $deliverymanid);
+    public function getByIdAndClient($id, $idClient);
 }

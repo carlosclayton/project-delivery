@@ -5,12 +5,17 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic','ionic.service.core', 'starter.services', 'starter.controllers', 'angular-oauth2', 'ngResource', 'ngCordova', 'starter.filters', 'uiGmapgoogle-maps', 'pusher-angular'])
+angular.module('starter', ['ionic','ionic.service.core', 'starter.services', 'starter.controllers','starter.run', 'angular-oauth2', 'ngResource', 'ngCordova', 'starter.filters',
+    'uiGmapgoogle-maps', 'pusher-angular','permission', 'http-auth-interceptor'])
 
     .constant('appConfig', {
-        baseUrl: 'http://192.168.1.101:8000',
+        baseUrl: 'http://192.168.1.30:8000',
         //baseUrl: 'http://172.16.1.180:8000',
-        pusherKey: '87930d54ca1c35677b31'
+        pusherKey: '87930d54ca1c35677b31',
+        redirectAfterLogin: {
+            client: 'client.order',
+            deliveryman: 'deliveryman.order'
+        }
     })
     .value('meuValue', 'Carlos Clayton')
     .provider('minhaCalculadora', function () {
@@ -52,8 +57,6 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.services', 'st
     .run(function ($ionicPlatform, meuValue, meuService, meuFactory, $window, appConfig, $localStorage) {
         $window.client = new Pusher(appConfig.pusherKey);
 
-
-
         meuService.minhaFuncao();
         meuFactory.minhaFuncao();
         console.log(meuValue);
@@ -64,6 +67,12 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.services', 'st
                debug: true,
                 onNotification: function(message){
                     console.log(message);
+                    alert(message.text);
+                },
+                pluginConfig: {
+                    android: {
+                        iconColor: "red"
+                    }
                 }
 
             });
@@ -176,12 +185,22 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.services', 'st
                 templateUrl: 'templates/login.html',
                 controller: 'LoginCtrl'
             })
+            .state('logout', {
+                url: '/logout',
+                controller: 'LogoutCtrl'
+            })
+
             .state('client', {
                 abstract: true,
                 cache: false,
                 url: '/client',
                 templateUrl: 'templates/client/menu.html',
-                controller: 'ClientMenuCtrl'
+                controller: 'ClientMenuCtrl',
+                data: {
+                    permissions: {
+                        only: ['client-role']
+                    }
+                }
             })
 
             .state('client.order', {
@@ -232,7 +251,13 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.services', 'st
                 cache: false,
                 url: '/deliveryman',
                 templateUrl: 'templates/deliveryman/menu.html',
-                controller: 'DeliverymanMenuCtrl'
+                controller: 'DeliverymanMenuCtrl',
+                data: {
+                    permissions: {
+                        only: ['deliveryman-role']
+                    }
+                }
+
             })
             .state('deliveryman.order', {
                 url: '/order',
@@ -333,6 +358,11 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.services', 'st
                     writable: true
                 }
             });
+            return $delegate;
+        }]);
+
+        $provide.decorator('oauthInterceptor', ['$delegate', function ($delegate) {
+            delete $delegate['responseError'];
             return $delegate;
         }]);
     });

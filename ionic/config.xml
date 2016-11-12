@@ -2,21 +2,25 @@
 <widget id="com.ionicframework.ionic621642" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Project Delivery</name>
   <description>
-        An Ionic Framework and Cordova project.
+        Aplicativo para acompanhamento de pedidos
     </description>
-  <author email="you@example.com" href="http://example.com.com/">
-      Your Name Here
+  <author email="carlos.clayton@viusolucoes.com.br" href="http://viusolucoes.com.br/">
+      Carlos Clayton
     </author>
   <content src="index.html"/>
   <access origin="*"/>
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
-  <preference name="SplashScreenDelay" value="2000"/>
-  <preference name="FadeSplashScreenDuration" value="2000"/>
   <preference name="android-minSdkVersion" value="13"/>
   <preference name="BackupWebStorage" value="none"/>
+
   <preference name="SplashScreen" value="screen"/>
+  <preference name="SplashScreenDelay" value="2000"/>
+  <preference name="FadeSplashScreenDuration" value="2000"/>
+  <preference name="ShowSplashScreenSpinner" value="false"/>
+  <preference name="AutoHideSplashScreen" value="false" />
+
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>

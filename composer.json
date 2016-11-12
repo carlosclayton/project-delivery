@@ -22,7 +22,8 @@
         "league/fractal": "^0.13.0@dev",
         "barryvdh/laravel-cors": "^0.8.0@dev",
         "pusher/pusher-php-server": "~2.0",
-        "dmitrovskiy/ionic-push-php": "0.0.3"
+        "dmitrovskiy/ionic-push-php": "0.0.3",
+        "asm89/stack-cors": "dev-master"
 
     },
     "require-dev": {

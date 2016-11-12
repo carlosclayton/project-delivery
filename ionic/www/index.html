@@ -36,6 +36,7 @@
     <script src="lib/query-string/query-string.js"></script>
     <script src="lib/angular-oauth2/dist/angular-oauth2.min.js"></script>
     <script src="lib/angular-resource/angular-resource.min.js"></script>
+    <script src="lib/angular-permission/dist/angular-permission.min.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
@@ -51,6 +52,7 @@
     <script src="js/controllers/account.js"></script>
     <script src="js/controllers/dash.js"></script>
     <script src="js/controllers/login.js"></script>
+    <script src="js/controllers/logout.js"></script>
 
     <script src="js/controllers/client-menu.js"></script>
     <script src="js/controllers/client-checkout.js"></script>
@@ -75,6 +77,7 @@
     <script src="js/services/user.js"></script>
     <script src="js/services/user-data.js"></script>
     <script src="js/services/map.js"></script>
+    <script src="js/services/redirect.js"></script>
 
     <script src="js/filters.js"></script>
     <script src="js/filters/join.js"></script>
@@ -82,10 +85,21 @@
     <script src="lib/lodash/dist/lodash.min.js"></script>
     <script src="lib/angular-simple-logger/dist/angular-simple-logger.min.js"></script>
     <script src="lib/angular-google-maps/dist/angular-google-maps.min.js"></script>
+    <script src="lib/angular-http-auth/src/http-auth-interceptor.js"></script>
 
+    <script src="js/run.js"></script>
+    <script src="js/run/app.run.js"></script>
+
+
+    <!--
     <script src="//js.pusher.com/3.0/pusher.min.js"></script>
-    <!-- pusher-angular -->
     <script src="//cdn.jsdelivr.net/angular.pusher/latest/pusher-angular.min.js"></script>
+    -->
+
+    <script src="lib/pusher-websocket-iso/dist/web/pusher.js"></script>
+
+    <!-- pusher-angular -->
+    <script src="lib/pusher-angular/lib/pusher-angular.min.js"></script>
 
 </head>
 <body ng-app="starter">
