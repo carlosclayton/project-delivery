@@ -23,9 +23,10 @@ angular.module('starter.controllers')
                 OAuth.getAccessToken($scope.user)
                 .then(function(data){
                 console.log(data);
-                }, function(responseError){
-                    console.debug(responseError);
+                }).catch(function(){
+                        console.debug(responseError);
                 });
+
                 /*
                 var promise = OAuth.getAccessToken($scope.user);
                 promise

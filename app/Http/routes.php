@@ -106,6 +106,7 @@ Route::group(['prefix' => 'customer'], function () {
 Route::group(['middleware' => 'cors'], function () {
 
     Route::post('oauth/access_token', function () {
+        //header("Access-Control-Allow-Origin: *");
         return Response::json(Authorizer::issueAccessToken());
     });
 

@@ -3,23 +3,24 @@
 namespace Delivery\Exceptions;
 
 
-use Exception;
 use Asm89\Stack\CorsService;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Auth\Access\AuthorizationException;
+
+///use Barryvdh\Cors\Stack\CorsService;
+use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use League\OAuth2\Server\Exception\OAuthException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+
 
 class Handler extends ExceptionHandler
 {
 
     private $corsService;
-
-    public function __construct(LoggerInterface $log, CorsService $corsService){
+    public function __construct(LoggerInterface $log, CorsService $corsService)
+    {
         parent::__construct($log);
         $this->corsService = $corsService;
     }
@@ -31,11 +32,8 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        AuthorizationException::class,
         HttpException::class,
         ModelNotFoundException::class,
-        ValidationException::class,
-        OAuthException::class,
     ];
 
     /**
@@ -60,17 +58,24 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+
         //dd($e);
-        if($e instanceof ModelNotFoundException){
+        //$response = parent::render($request, $e);
+        if ($e instanceof ModelNotFoundException) {
             $e = new NotFoundHttpException($e->getMessage(), $e);
-        }elseif($e instanceof OAuthException){
+        } elseif ($e instanceof OAuthException) {
+
             $response = response()->json([
                 'error' => $e->errorType,
                 'error_description' => $e->getMessage()
             ], $e->httpStatusCode, $e->getHttpHeaders());
+
             return $this->corsService->addActualRequestHeaders($response, $request);
+
+
+        } else {
+            return parent::render($request, $e);
         }
 
-        return parent::render($request, $e);
     }
 }

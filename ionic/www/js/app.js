@@ -361,8 +361,10 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.services', 'st
             return $delegate;
         }]);
 
+
         $provide.decorator('oauthInterceptor', ['$delegate', function ($delegate) {
             delete $delegate['responseError'];
             return $delegate;
         }]);
+
     });

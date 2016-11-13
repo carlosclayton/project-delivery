@@ -23,7 +23,8 @@
         "barryvdh/laravel-cors": "^0.8.0@dev",
         "pusher/pusher-php-server": "~2.0",
         "dmitrovskiy/ionic-push-php": "0.0.3",
-        "asm89/stack-cors": "dev-master"
+        "asm89/stack-cors": "dev-master",
+        "bshaffer/oauth2-server-httpfoundation-bridge": "dev-master"
 
     },
     "require-dev": {
