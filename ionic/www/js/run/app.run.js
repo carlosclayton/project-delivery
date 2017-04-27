@@ -26,32 +26,36 @@ angular.module('starter.run')
             PermRoleStore.defineRole('deliveryman-role', ['user-permission', 'deliveryman-permission']);
 
             $rootScope.$on('event:auth-loginRequired', function (event, data) {
-                OAuth.getRefreshToken().then(function(){
-                    authService.loginConfirmed();
-                }, function(error){
-                    $state.go('logout');
-                })
-            });
+                OAuth.getRefreshToken()
+                    .then(function(data){
+                        authService.loginConfimed();
+                    }, function(responseError){
+                        $state.go('logout');
+                    })
+
                 /*
                 switch (data.data.error){
                     case 'access_denied':
                         if (!$rootScope.refreshingToken) {
                             $rootScope.refreshingToken = OAuth.getRefreshToken();
                         }
+
                         $rootScope.refreshingToken.then(function (data) {
                             authService.loginConfirmed();
                             $rootScope.refreshingToken = null;
                         }, function (responseError) {
                             $state.go('logout');
-                        })
+                        }
                         break;
                     case 'invalid_credentials':
+                        httpBuffer.rejectAll();)
                         break;
                     default:
                         $state.go('logout');
                         break;
-
                 }
+                */
+
             });
-            */
+            
         }])

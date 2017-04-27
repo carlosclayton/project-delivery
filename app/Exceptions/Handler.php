@@ -68,11 +68,8 @@ class Handler extends ExceptionHandler
             $response = response()->json([
                 'error' => $e->errorType,
                 'error_description' => $e->getMessage()
-            ], $e->httpStatusCode, $e->getHttpHeaders());
-
+            ], 400, $e->getHttpHeaders());
             return $this->corsService->addActualRequestHeaders($response, $request);
-
-
         } else {
             return parent::render($request, $e);
         }

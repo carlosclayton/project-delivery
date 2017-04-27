@@ -20,14 +20,15 @@ angular.module('starter.controllers')
              */
 
             $scope.login = function () {
+                /*
                 OAuth.getAccessToken($scope.user)
                 .then(function(data){
                 console.log(data);
-                }).catch(function(){
+                }).catch(function(responseError){
                         console.debug(responseError);
                 });
+                */
 
-                /*
                 var promise = OAuth.getAccessToken($scope.user);
                 promise
                     .then(function (data) {
@@ -52,7 +53,6 @@ angular.module('starter.controllers')
                         console.debug(responseError);
 
                     });
-                    */
             }
         }]);
 

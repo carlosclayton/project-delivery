@@ -9,8 +9,8 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.services', 'st
     'uiGmapgoogle-maps', 'pusher-angular','permission', 'http-auth-interceptor'])
 
     .constant('appConfig', {
-        baseUrl: 'http://192.168.1.30:8000',
-        //baseUrl: 'http://172.16.1.180:8000',
+        //baseUrl: 'http://192.168.1.100:8000',
+        baseUrl: 'http://localhost:8000',
         pusherKey: '87930d54ca1c35677b31',
         redirectAfterLogin: {
             client: 'client.order',
@@ -103,7 +103,7 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.services', 'st
 
         OAuthProvider.configure({
             baseUrl: appConfig.baseUrl,
-            clientId: 'app01',
+            clientId: 'appid01',
             clientSecret: 'secret', // optional
             grantPath: '/oauth/access_token'
         });
